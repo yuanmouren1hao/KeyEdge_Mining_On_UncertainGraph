@@ -47,9 +47,9 @@ int _tmain(int argc, char* argv[])
 	*/
 
 	
-	char argv1[BUFFER_SIZE]="data\\s-t\\new_graph.txt";
-	char argv2[BUFFER_SIZE]="data\\mydata\\new_graph.txt";
-	char argv3[BUFFER_SIZE]="data\\results\\new_graph.txt";
+	char argv1[BUFFER_SIZE]="data\\s-t\\TestGraph.txt";
+	char argv2[BUFFER_SIZE]="data\\mydata\\TestGraph.txt";
+	char argv3[BUFFER_SIZE]="data\\results\\TestGraph.txt";
 	
 	
 	strcat_s(stFileName,argv1);
