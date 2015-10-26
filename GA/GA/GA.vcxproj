@@ -64,6 +64,7 @@
     <ClCompile Include="GA2.cpp" />
     <ClCompile Include="graph.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConstDef.h" />

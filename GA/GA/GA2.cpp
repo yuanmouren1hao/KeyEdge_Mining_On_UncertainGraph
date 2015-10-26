@@ -7,19 +7,25 @@
 #include <assert.h>
 #include <time.h>
 #include <windows.h>
+#include <iomanip> 
 
 using namespace std;
 
 /* Change any of these parameters to match your needs */ 
 #define POPSIZE 50 /* population size */ 
-#define MAXGENS 8000 /* max. number of generations */ 
-#define NVARS 84 /* no. of problem variables TODO*/ 
-#define PXOVER 0.8 /* probability of crossover */ 
-#define PMUTATION 0.15 /* probability of mutation */ 
+#define MAXGENS 1000 /* max. number of generations */ 
+//#define NVARS 26 /* no. of problem variables TODO*/ 
+const int NVARS = 64 ;
+int source;
+int dest;
+string FileName = "data/data2/V16E64.txt";
+string stFileName ="data/st/V6E10.txt";
+char * resultFileName = "result/data2/V16E64.txt";
+
+#define PXOVER 0.95 /* probability of crossover */ 
+#define PMUTATION 0.02 /* probability of mutation */ 
 #define TRUE 1 
 #define FALSE 0 
-const int source = 1;
-const int dest = 15;
 
 int generation; /* current generation no. */ 
 int cur_best; /* best individual */ 
@@ -79,7 +85,25 @@ void initialize(void)
 { 
 	int i, j; 
 
-	for (j = 0; j < POPSIZE; j++) 
+	/*使用一个满足最大流的个体初始化最初种群*/
+	population[0].cfitness = 0;
+	population[0].fitness = 0;
+	population[0].flow = g.maxFlow;
+	population[0].is_maxFlow = 1;
+	population[0].rfitness = 0;
+	int u, v;/*起始顶点*/
+	for (int i = 1; i <= NVARS; i++)
+	{
+		u = AllEdge[i][1];
+		v = AllEdge[i][2];
+		if (flow[u][v] > 0)
+			population[0].gene[i-1] = 1;
+		else
+			population[0].gene[i-1] = 0;
+	}
+
+
+	for (j = 1; j < POPSIZE; j++) 
 	{ 
 		population[j].fitness = 0; 
 		population[j].rfitness = 0; 
@@ -93,16 +117,7 @@ void initialize(void)
 
 	return;
 } 
-
-/***********************************************************/ 
-/* Random value generator: Generates a value within bounds */ 
-/***********************************************************/ 
-double randval(double low, double high) 
-{ 
-	double val; 
-	val = ((double)(rand()%1000)/1000.0)*(high - low) + low; 
-	return(val); 
-} 
+ 
 
 /*************************************************************/ 
 /* Evaluation function: This takes a user defined function. */ 
@@ -434,20 +449,23 @@ void loadgraph(void){
 	char strLine[32];     /*记录in读取的内容*/
 	int gId;	
 
-	in.open("V15E84.txt");
+	in.open(FileName);
 	if(!in.is_open())
 	{
 		cout<<"Input file graph.txt doesn't exist!"<<endl;
 		exit(1);
 	}
 
-	stIn.open("st.txt");
+	stIn.open(stFileName);
 	if(!stIn.is_open())
 	{
 		cout<<"Input file st.txt doesn't exist!"<<endl;
 		in.close();
 		exit(1);
 	}
+	
+	/*read st file name*/
+	stIn >> source >> dest;
 
 	/*read first line and edge and v*/
 	in>>strLine;
@@ -491,7 +509,7 @@ void loadgraph(void){
 /* evaluating the resulting population, until the terminating */ 
 /* condition is satisfied */ 
 /**************************************************************/ 
-void main(void) 
+void main2(void) 
 { 
 	int i; 
 	__int64 start = 0;                                         /*用于测量时间(精确到1ms)*/
@@ -499,7 +517,7 @@ void main(void)
 	__int64 counter = 0;
 	double timeCost = 0.0;
 
-	if ((galog = fopen("galog.txt","w"))==NULL) 
+	if ((galog = fopen(resultFileName, "w"))==NULL) 
 	{ 
 		exit(1); 
 	} 
@@ -511,17 +529,27 @@ void main(void)
 	loadgraph();
 	/*获取最大流*/
 	g.maxFlow = Dinic(g, source, dest, flow, gf);
+	fprintf(galog, " maxFlow:%d \n", g.maxFlow); 
 
-	/*随机数种子*/
-	srand(time(0));
-
-	QueryPerformanceFrequency((LARGE_INTEGER*)&frequency); 
-	/*开始时间*/
-	QueryPerformanceCounter((LARGE_INTEGER*)&start);      /*记录开始时间*/
+	/*
+	for(int i =1; i<= NVARS; i++){
+		for (int j = 1; j<=NVARS; j++)
+		{
+			cout<<setw(4)<<flow[i][j];
+		}
+		cout<<endl;
+	}*/
 
 	initialize(); 
 	evaluate(); 
 	keep_the_best(); 
+
+
+	/*随机数种子*/
+	srand(time(0));
+	QueryPerformanceFrequency((LARGE_INTEGER*)&frequency); 
+	/*开始时间*/
+	QueryPerformanceCounter((LARGE_INTEGER*)&start);      /*记录开始时间*/
 	while(generation<MAXGENS) 
 	{ 
 		generation++; 
@@ -532,13 +560,11 @@ void main(void)
 		evaluate(); 
 		elitist(); 
 	}
+
 	/*结束时间*/
-	QueryPerformanceCounter((LARGE_INTEGER*)&counter);      /*记录开始时间*/
-	timeCost = (counter - start) / double(frequency)*1000;/*返回单位是毫秒*/
-	//printf("");
-	cout<<start<<endl;
-	cout<<counter<<endl;
-	cout<<timeCost<<endl;
+	QueryPerformanceCounter((LARGE_INTEGER*)&counter);      /*记录结束时间*/
+	timeCost = (counter - start)*1000 / double(frequency);/*返回单位是毫秒*/
+	fprintf(galog, " \nExecute time is:%f ms\n", timeCost); 
 
 	fprintf(galog,"\n\n Simulation completed\n"); 
 	fprintf(galog,"\n Best member: \n"); 
@@ -550,6 +576,5 @@ void main(void)
 	fprintf(galog,"\n\n Best fitness = %f",population[POPSIZE].fitness); 
 	fclose(galog); 
 	printf("Success\n");
-	getchar();
 } 
 /***************************************************************/
