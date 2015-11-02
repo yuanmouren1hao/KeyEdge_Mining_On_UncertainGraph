@@ -36,9 +36,7 @@ void computeEdgeClass(Lower_subGraph *StateMtrix,KeyEdgeSet *key_edge_set,Graph&
 /*对边进行的大分类*/
 void sortKeyEdge(Lower_subGraph *StateMtrix,KeyEdgeSet *key_edge_set);
 /*对于A类边进行排序*/
-void sortKeyEdge_A(KeyEdgeSet *key_edge_set,Graph& g,int source,int sink);
-/*对于B类边进行排序*/
-void sortKeyEdge_B(KeyEdgeSet *key_edge_set,double AllEdge_p[],Lower_subGraph *StateMtrix);
+void sortKeyEdge_ABC(KeyEdgeSet *key_edge_set,Graph& g,int source,int sink);
 /*将关键边输出*/
 void printKeyEdge(ostream &file_out,KeyEdgeSet &key_edge_set);
 /*初始化关键边集，用于循环计算*/

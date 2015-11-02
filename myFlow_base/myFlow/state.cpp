@@ -76,15 +76,10 @@ void Exchange_A(KeyEdgeSet *key_edge_set,int i,int j)
 
 
 /*对于A类边进行排序*/
-void sortKeyEdge_A(KeyEdgeSet *key_edge_set, Graph& g, int source, int sink)
+void sortKeyEdge_ABC(KeyEdgeSet *key_edge_set, Graph& g, int source, int sink)
 {
 	/*测试输出*/
-	cout<<"sortKeyEdge_A"<<endl;
-	/*如果没有A类边的个数为0*/
-	if (key_edge_set->A_num==0)
-	{
-		return;
-	}
+	cout<<"sortKeyEdge_ABC"<<endl;
 
 	int new_maxflow = 0; /*保存新最大流*/
 	double new_p1 =0;/*新的最大可靠性(最可靠最大流分布)*/
@@ -92,25 +87,88 @@ void sortKeyEdge_A(KeyEdgeSet *key_edge_set, Graph& g, int source, int sink)
 	Flow new_maxPmaxF;/*新的最大流分布*/
 	Edge TempEdge;/*临时存储一条边的信息*/
 
-	/*对于A类中的边，去掉一个*/
-	for (int i=1;i<=key_edge_set->A_num;i++)
-	{
-		/*初始化临时存储边*/
-		init_TempEdge(TempEdge);
-		/*去除某一条A类边*/
-		removeA_Edge(g, key_edge_set->A_EdgeInfo[i].Edge, TempEdge);
-		//重新计算最大流new_maxflow，流分布可靠性new_p1，网络可靠性new_p2
-		new_p1 = base_GetMPMF(g, source, sink, new_maxflow, new_maxPmaxF, new_p2, key_edge_set->A_EdgeInfo[i].Edge);
-		
-		/* 将改变量保存在A边信息,保存的是断掉边之后能够达到的最大流 */
-		key_edge_set->A_EdgeInfo[i].ChangeAmount_c = new_maxflow;
-		key_edge_set->A_EdgeInfo[i].ChangeAmount_p1 = new_p1;
-		key_edge_set->A_EdgeInfo[i].ChangeAmount_p2 = new_p2;
 
-		/* 恢复某一条A类边 */
-		restoreA_Edge(g,key_edge_set->A_EdgeInfo[i].Edge, TempEdge);
+	/*如果有A类边的话*/
+	if (key_edge_set->A_num > 0)
+	{
+		/*对于A类中的边，去掉一个*/
+		for (int i=1; i<=key_edge_set->A_num; i++)
+		{
+			/*初始化临时存储边*/
+			init_TempEdge(TempEdge);
+			new_maxflow = 0;
+			new_p1 = 0;
+			new_p2 = 0;
+
+			/*去除某一条A类边*/
+			removeA_Edge(g, key_edge_set->A_EdgeInfo[i].Edge, TempEdge);
+			//重新计算最大流new_maxflow，流分布可靠性new_p1，网络可靠性new_p2
+			new_p1 = base_GetMPMF(g, source, sink, new_maxflow, new_maxPmaxF, new_p2, key_edge_set->A_EdgeInfo[i].Edge);
+
+			/* 将改变量保存在A边信息,保存的是断掉边之后能够达到的最大流 */
+			key_edge_set->A_EdgeInfo[i].ChangeAmount_c = new_maxflow;
+			key_edge_set->A_EdgeInfo[i].ChangeAmount_p1 = new_p1;
+			key_edge_set->A_EdgeInfo[i].ChangeAmount_p2 = new_p2;
+
+			/* 恢复某一条A类边 */
+			restoreA_Edge(g,key_edge_set->A_EdgeInfo[i].Edge, TempEdge);
+		}
 	}
 
+	/*如果有B类边的话*/
+	if (key_edge_set->B_num > 0)
+	{
+		/*对于A类中的边，去掉一个*/
+		for (int i=1; i<=key_edge_set->B_num; i++)
+		{
+			/*初始化临时存储边*/
+			init_TempEdge(TempEdge);
+			new_maxflow = 0;
+			new_p1 = 0;
+			new_p2 = 0;
+
+			/*去除某一条A类边*/
+			removeA_Edge(g, key_edge_set->B_EdgeInfo[i].Edge, TempEdge);
+			//重新计算最大流new_maxflow，流分布可靠性new_p1，网络可靠性new_p2
+			new_p1 = base_GetMPMF(g, source, sink, new_maxflow, new_maxPmaxF, new_p2, key_edge_set->B_EdgeInfo[i].Edge);
+
+			/* 将改变量保存在A边信息,保存的是断掉边之后能够达到的最大流 */
+			key_edge_set->B_EdgeInfo[i].ChangeAmount_c = new_maxflow;
+			key_edge_set->B_EdgeInfo[i].ChangeAmount_p1 = new_p1;
+			key_edge_set->B_EdgeInfo[i].ChangeAmount_p2 = new_p2;
+
+			/* 恢复某一条A类边 */
+			restoreA_Edge(g,key_edge_set->B_EdgeInfo[i].Edge, TempEdge);
+		}
+	}
+
+	/*如果有C类边的话*/
+	if (key_edge_set->C_num > 0)
+	{
+		/*对于A类中的边，去掉一个*/
+		for (int i=1; i<=key_edge_set->C_num; i++)
+		{
+			/*初始化临时存储边*/
+			init_TempEdge(TempEdge);
+			new_maxflow = 0;
+			new_p1 = 0;
+			new_p2 = 0;
+
+			/*去除某一条A类边*/
+			removeA_Edge(g, key_edge_set->C_EdgeInfo[i].Edge, TempEdge);
+			//重新计算最大流new_maxflow，流分布可靠性new_p1，网络可靠性new_p2
+			new_p1 = base_GetMPMF(g, source, sink, new_maxflow, new_maxPmaxF, new_p2, key_edge_set->C_EdgeInfo[i].Edge);
+
+			/* 将改变量保存在A边信息,保存的是断掉边之后能够达到的最大流 */
+			key_edge_set->C_EdgeInfo[i].ChangeAmount_c = new_maxflow;
+			key_edge_set->C_EdgeInfo[i].ChangeAmount_p1 = new_p1;
+			key_edge_set->C_EdgeInfo[i].ChangeAmount_p2 = new_p2;
+
+			/* 恢复某一条A类边 */
+			restoreA_Edge(g,key_edge_set->C_EdgeInfo[i].Edge, TempEdge);
+		}
+	}
+	
 	return;
 }
 
@@ -124,64 +182,7 @@ void init_TempP(double TempP[])
 	return;
 }
 
-/*调换B类边的两个边的位置*/
-void Exchange_B(KeyEdgeSet *key_edge_set,int i,int j)
-{
-	//cout<<i<<"--->"<<j<<endl;
-	KeyEdge TempKeyEdge;
-	TempKeyEdge.ChangeAmount_p1=key_edge_set->B_EdgeInfo[i].ChangeAmount_p1;
-	TempKeyEdge.Edge=key_edge_set->B_EdgeInfo[i].Edge;
-	TempKeyEdge.Edge_Class=key_edge_set->B_EdgeInfo[i].Edge_Class;
 
-	key_edge_set->B_EdgeInfo[i].ChangeAmount_p1=key_edge_set->B_EdgeInfo[j].ChangeAmount_p1;
-	key_edge_set->B_EdgeInfo[i].Edge=key_edge_set->B_EdgeInfo[j].Edge;
-	key_edge_set->B_EdgeInfo[i].Edge_Class=key_edge_set->B_EdgeInfo[j].Edge_Class;
-
-	key_edge_set->B_EdgeInfo[j].ChangeAmount_p1=TempKeyEdge.ChangeAmount_p1;
-	key_edge_set->B_EdgeInfo[j].Edge=TempKeyEdge.Edge;
-	key_edge_set->B_EdgeInfo[j].Edge_Class=TempKeyEdge.Edge_Class;
-
-	return;
-}
-
-/*对于B类边进行排序*/
-void sortKeyEdge_B(KeyEdgeSet *key_edge_set,Graph &g,Lower_subGraph *StateMtrix)
-{
-	/*标记输出*/
-	cout<<"sortKeyEdge_B"<<endl;
-
-	double TempP[MAX_E_NUM];
-	init_TempP(TempP);
-	double p;
-	for (int i=1;i<=StateMtrix->State_Num;i++)
-	{
-		p=1.0;
-		/*求一个下界子图的可靠性*/
-		for (int j=1;j<=StateMtrix->Edge_Num;j++)
-		{
-			if (1==StateMtrix->State[i][j])
-			{
-				p *= g.AllEdge_p[j];
-			}
-		}
-		/*更新下界子图中边对应的最大可靠*/
-		for (int jj=1;jj<=StateMtrix->Edge_Num;jj++)
-		{
-			if (1==StateMtrix->State[i][jj]&&TempP[jj]<p)
-			{
-				TempP[jj]=p;
-			}
-		}
-	}
-
-	/*更新边的可靠性*/
-	for (int i=1;i<=key_edge_set->B_num;i++)
-	{
-		key_edge_set->B_EdgeInfo[i].ChangeAmount_p1=TempP[key_edge_set->B_EdgeInfo[i].Edge];
-	}
-
-	return;
-}
 
 /*对边进行的大分类*/
 void sortKeyEdge(Lower_subGraph *StateMtrix,KeyEdgeSet *key_edge_set)
@@ -192,7 +193,6 @@ void sortKeyEdge(Lower_subGraph *StateMtrix,KeyEdgeSet *key_edge_set)
 	key_edge_set->EdgeNum=StateMtrix->Edge_Num;
 	int temp_sum=0;
 	
-
 	for (int ii=1;ii<=StateMtrix->Edge_Num;ii++)
 	{
 		temp_sum=0;
@@ -233,21 +233,23 @@ void computeEdgeClass(Lower_subGraph *StateMtrix, KeyEdgeSet *key_edge_set, Grap
 	sortKeyEdge(StateMtrix, key_edge_set);
 	
 	/*对关键边进行定量计算*/
-	sortKeyEdge_A(key_edge_set, g, source, sink);
+	sortKeyEdge_ABC(key_edge_set, g, source, sink);
 	/*测试输出*/
+	
 	for (int i=1; i<=key_edge_set->A_num; i++)
 	{
-		cout<<key_edge_set->A_EdgeInfo[i].Edge<<setw(10)<<key_edge_set->A_EdgeInfo[i].Edge_Class<<setw(10)<<key_edge_set->A_EdgeInfo[i].ChangeAmount_c<<setw(10)<<key_edge_set->A_EdgeInfo[i].ChangeAmount_p1<<setw(10)<<key_edge_set->A_EdgeInfo[i].ChangeAmount_p2<<endl;
+		cout<<setw(5)<<key_edge_set->A_EdgeInfo[i].Edge<<setw(10)<<key_edge_set->A_EdgeInfo[i].Edge_Class<<setw(10)<<key_edge_set->A_EdgeInfo[i].ChangeAmount_c<<setw(10)<<key_edge_set->A_EdgeInfo[i].ChangeAmount_p1<<setw(10)<<key_edge_set->A_EdgeInfo[i].ChangeAmount_p2<<endl;
 	}
-
-	/*对B类边进行定量计算*/
-	sortKeyEdge_B(key_edge_set, g, StateMtrix);
-	/*测试输出*/
 	for (int i=1; i<=key_edge_set->B_num; i++)
 	{
-		cout<<setw(5)<<key_edge_set->B_EdgeInfo[i].Edge<<setw(5)<<key_edge_set->B_EdgeInfo[i].Edge_Class<<"    "<<key_edge_set->B_EdgeInfo[i].ChangeAmount_p1<<endl;
+		cout<<setw(5)<<key_edge_set->B_EdgeInfo[i].Edge<<setw(10)<<key_edge_set->B_EdgeInfo[i].Edge_Class<<setw(10)<<key_edge_set->B_EdgeInfo[i].ChangeAmount_c<<setw(10)<<key_edge_set->B_EdgeInfo[i].ChangeAmount_p1<<setw(10)<<key_edge_set->B_EdgeInfo[i].ChangeAmount_p2<<endl;
+	}
+	for (int i=1; i<=key_edge_set->C_num; i++)
+	{
+		cout<<setw(5)<<key_edge_set->C_EdgeInfo[i].Edge<<setw(10)<<key_edge_set->C_EdgeInfo[i].Edge_Class<<setw(10)<<key_edge_set->C_EdgeInfo[i].ChangeAmount_c<<setw(10)<<key_edge_set->C_EdgeInfo[i].ChangeAmount_p1<<setw(10)<<key_edge_set->C_EdgeInfo[i].ChangeAmount_p2<<endl;
 	}
 	
+	cout<<"==========================="<<endl<<endl<<endl;
 	return;
 }
 
@@ -258,15 +260,15 @@ void printKeyEdge(ostream &out,KeyEdgeSet &key_edge_set)
 	out<<"关键边输出如下："<<endl<<"---------------------------------"<<endl;
 	for (int i=1;i<=key_edge_set.A_num;i++)
 	{
-		out<<setw(5)<<key_edge_set.A_EdgeInfo[i].Edge<<setw(5)<<key_edge_set.A_EdgeInfo[i].Edge_Class<<setw(5)<<key_edge_set.A_EdgeInfo[i].ChangeAmount_c<<endl;
+		out<<setw(5)<<key_edge_set.A_EdgeInfo[i].Edge<<setw(10)<<key_edge_set.A_EdgeInfo[i].Edge_Class<<setw(10)<<key_edge_set.A_EdgeInfo[i].ChangeAmount_c<<setw(10)<<key_edge_set.A_EdgeInfo[i].ChangeAmount_p1<<setw(10)<<key_edge_set.A_EdgeInfo[i].ChangeAmount_p2<<endl;
 	}
 	for (int i=1;i<=key_edge_set.B_num;i++)
 	{
-		out<<setw(5)<<key_edge_set.B_EdgeInfo[i].Edge<<setw(5)<<key_edge_set.B_EdgeInfo[i].Edge_Class<<setw(5)<<key_edge_set.B_EdgeInfo[i].ChangeAmount_p1<<endl;
+		out<<setw(5)<<key_edge_set.B_EdgeInfo[i].Edge<<setw(10)<<key_edge_set.B_EdgeInfo[i].Edge_Class<<setw(10)<<key_edge_set.B_EdgeInfo[i].ChangeAmount_c<<setw(10)<<key_edge_set.B_EdgeInfo[i].ChangeAmount_p1<<setw(10)<<key_edge_set.B_EdgeInfo[i].ChangeAmount_p2<<endl;
 	}
 	for (int i=1;i<=key_edge_set.C_num;i++)
 	{
-		out<<setw(5)<<key_edge_set.C_EdgeInfo[i].Edge<<setw(5)<<key_edge_set.C_EdgeInfo[i].Edge_Class<<setw(5)<<key_edge_set.C_EdgeInfo[i].ChangeAmount_p1<<endl;
+		out<<setw(5)<<key_edge_set.C_EdgeInfo[i].Edge<<setw(10)<<key_edge_set.C_EdgeInfo[i].Edge_Class<<setw(10)<<key_edge_set.C_EdgeInfo[i].ChangeAmount_c<<setw(10)<<key_edge_set.C_EdgeInfo[i].ChangeAmount_p1<<setw(10)<<key_edge_set.C_EdgeInfo[i].ChangeAmount_p2<<endl;
 	}
 	out<<"---------------------------------"<<endl<<"---------------------------------"<<endl<<endl;
 }

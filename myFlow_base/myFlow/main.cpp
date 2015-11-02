@@ -36,7 +36,7 @@ int _tmain(int argc, char* argv[])
 	char fileName[BUFFER_SIZE]       = WORK_SPACE;             /*数据存放文件*/
 	char resultFileName[BUFFER_SIZE] = WORK_SPACE;             /*实验结果存放文件*/
 
-	/*
+	
 	if (4 != argc)
 	{
 		cout<<"Command Params : "<<endl
@@ -49,8 +49,8 @@ int _tmain(int argc, char* argv[])
 	strcat_s(stFileName,argv[1]);
 	strcat_s(fileName,argv[2]);
 	strcat_s(resultFileName,argv[3]);
-	*/
 	
+	/*
 	char argv1[BUFFER_SIZE]="data\\s-t\\test_graph_st.txt";
 	char argv2[BUFFER_SIZE]="data\\mydata\\TestGraph.txt";
 	char argv3[BUFFER_SIZE]="results\\new\\TestGraph.txt";
@@ -59,7 +59,7 @@ int _tmain(int argc, char* argv[])
 	strcat_s(fileName,argv2);
 	strcat_s(resultFileName,argv3);
 	cout<<stFileName<<endl;
-	
+	*/
 	
 	ofstream out_result;
 	out_result.open(resultFileName,ios::out|ios::app);         /*保存实验结果*/
@@ -114,8 +114,6 @@ int _tmain(int argc, char* argv[])
 		GetProcessMemoryInfo( hProcess, &pmc, sizeof(pmc));   /*获得进程使用的内存使用情况*/
 		memsize = pmc.WorkingSetSize;                         /*获得进程消耗的内存*/
 
-
-
 		/*将运行结果输出到文件*/
 		PrintFmax_Prob(out_result,s,t,maxflow,dP);            /*保存最可靠最大流分布概率到结果文件*/
 		out_result<<"状态划分算法消耗的内存为："              /*输出内存使用情况到结果文件*/
@@ -132,6 +130,6 @@ int _tmain(int argc, char* argv[])
 
 	CloseHandle(hProcess);                                    /*关闭进程句柄*/
 	out_result.close();                                       /*关闭结果文件*/
-	getchar();
+	//getchar();
 	return 0;
 }
