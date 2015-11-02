@@ -23,7 +23,7 @@ using namespace std;
 
 /*全局保存所有的下界子图状态*/
 Lower_subGraph StateMtrix;
-/*保存所有的关键边信息*/ 
+/*保存所有的关键边信息*/
 KeyEdgeSet key_edge_set;
 /*存储边的信息,不使用0*/
 int AllEdge[MAX_E_NUM][5];/*1234，起点，终点，容量，有效位*/
@@ -32,12 +32,10 @@ double AllEdge_p[MAX_E_NUM];/**/
 
 int _tmain(int argc, char* argv[])
 {
-
-	/* 首先初始化保存工程基本目录 */
 	char stFileName[BUFFER_SIZE]     = WORK_SPACE;             /*源点汇点*/
 	char fileName[BUFFER_SIZE]       = WORK_SPACE;             /*数据存放文件*/
 	char resultFileName[BUFFER_SIZE] = WORK_SPACE;             /*实验结果存放文件*/
-	
+
 	/*
 	if (4 != argc)
 	{
@@ -47,23 +45,22 @@ int _tmain(int argc, char* argv[])
 			<<"\tResult File Name"<<endl;
 		return 1;
 	}
+
 	strcat_s(stFileName,argv[1]);
 	strcat_s(fileName,argv[2]);
 	strcat_s(resultFileName,argv[3]);
 	*/
-
 	
-	char argv1[BUFFER_SIZE]="data\\s-t\\TestGraph.txt";
+	char argv1[BUFFER_SIZE]="data\\s-t\\test_graph_st.txt";
 	char argv2[BUFFER_SIZE]="data\\mydata\\TestGraph.txt";
-	char argv3[BUFFER_SIZE]="data\\results\\TestGraph.txt";
-	
+	char argv3[BUFFER_SIZE]="results\\new\\TestGraph.txt";
 	
 	strcat_s(stFileName,argv1);
 	strcat_s(fileName,argv2);
 	strcat_s(resultFileName,argv3);
 	cout<<stFileName<<endl;
 	
-
+	
 	ofstream out_result;
 	out_result.open(resultFileName,ios::out|ios::app);         /*保存实验结果*/
 	if(!out_result.is_open())
@@ -99,17 +96,17 @@ int _tmain(int argc, char* argv[])
 	Graph g;
 	g.Init();
 
-	while(inReader.ReadGraph(g,AllEdge,AllEdge_p))            /*读取文件中的图*/
+	while(inReader.ReadGraph(g))                               /*读取文件中的图*/
 	{
 		inReader.ReadSourceSink(s,t);
 		/*读一个图数据处理一个图*/
 
 		QueryPerformanceCounter((LARGE_INTEGER*)&start);      /*记录开始时间*/
 		dP = GetMPMF(g,s,t,maxflow,maxPmaxF,&StateMtrix);     /*运行核心算法*/
-		/*通过状态矩阵计算边的类别*/
-		computeEdgeClass(&StateMtrix,&key_edge_set,g,s,t,AllEdge,AllEdge_p, maxflow);
+		//cout<< dP<< endl;
 
-		
+		/*通过状态矩阵计算边的类别*/
+		computeEdgeClass(&StateMtrix,&key_edge_set,g,s,t);
 
 		QueryPerformanceCounter((LARGE_INTEGER*)&counter);    /*记录结束时间*/
 		timeCost = (counter - start) / double(frequency)*1000;/*返回单位是毫秒*/
