@@ -6,9 +6,9 @@
 
 ##工程中涉及的算法介绍
 
-* myFlow_base   `重复计算方式`
-* myFlow `基于增量的算法ICA`
-* myFlow_cut `基于割集过滤的算法`
+* myFlow_BASE   `重复计算方式`
+* myFlow_ICA `基于增量的算法ICA`
+* myFlow_CUT `基于割集过滤的算法`
 * GA `基于遗传算法的最可靠最大流分布的算法`
 
 
