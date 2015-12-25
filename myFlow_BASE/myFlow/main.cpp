@@ -59,7 +59,7 @@ int _tmain(int argc, char* argv[])
 	strcat_s(stFileName,argv1);
 	strcat_s(fileName,argv2);
 	strcat_s(resultFileName,argv3);
-	cout<<stFileName<<endl;
+	cout<<stFileName<<endl<<fileName<<endl<<resultFileName<<endl;
 	
 	
 	ofstream out_result;

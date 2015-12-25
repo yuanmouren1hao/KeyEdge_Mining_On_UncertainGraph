@@ -288,7 +288,7 @@ double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_s
 
 		FromG2G(g,cur_g,Cj.lower);                                                 /*下界向量对应的子图*/
 		tmpF = Dinic(cur_g,source,sink,Fd,gf); 
-		if(tmpF >= 2)                                                           /*完备区间下界对应子图能够满足最大流*/
+		if(tmpF >= Fmax)                                                           /*完备区间下界对应子图能够满足最大流*/
 		{
 			SAVEM(Cj);
 			/*尝试输出下界子图*/
@@ -307,7 +307,7 @@ double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_s
 			saveAllState(Cj,StateMtrix);
 		}  
 		else if((FromG2G(g,cur_g,Cj.upper),                                        /*对上界对应的子图求最大流*/
-			Dinic(cur_g,source,sink,Fd,gf)) >= 2) 
+			Dinic(cur_g,source,sink,Fd,gf)) >= Fmax) 
 		{/*同时满足F(lc) < Fmax <= F(uc)情况，
 			采用Chin-Chia Jane and Yih-Wenn Laih的方法划分*/
 			memset(x0,0,(nE+1)*sizeof(int));                                       /*初始化划分线x0*/
