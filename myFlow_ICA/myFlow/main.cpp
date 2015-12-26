@@ -21,13 +21,10 @@ using namespace std;
 #pragma  comment(lib,"Psapi.lib")
 
 
-/*全局保存所有的下界子图状态*/
+/*全局保存所有的满足最大流的子图区间，其中第0个下界默认表示的是极小子图*/
 Lower_subGraph StateMtrix;
 /*保存所有的关键边信息*/
 KeyEdgeSet key_edge_set;
-/*存储边的信息,不使用0*/
-int AllEdge[MAX_E_NUM][5];/*1234，起点，终点，容量，有效位*/
-double AllEdge_p[MAX_E_NUM];/**/
 
 
 int _tmain(int argc, char* argv[])
@@ -51,14 +48,14 @@ int _tmain(int argc, char* argv[])
 	strcat_s(resultFileName,argv[3]);
 	*/
 	
-	char argv1[BUFFER_SIZE]="data\\s-t\\test_graph_st.txt";
-	char argv2[BUFFER_SIZE]="data\\mydata\\TestGraph.txt";
-	char argv3[BUFFER_SIZE]="results\\new\\TestGraph.txt";
+	char argv1[BUFFER_SIZE]="data\\new_V5E6_st.txt";
+	char argv2[BUFFER_SIZE]="data\\new_V5E6.txt";
+	char argv3[BUFFER_SIZE]="data\\new_V5E6_results.txt";
 	
 	strcat_s(stFileName,argv1);
 	strcat_s(fileName,argv2);
 	strcat_s(resultFileName,argv3);
-	cout<<stFileName<<endl;
+	cout<<stFileName<<endl<<fileName<<endl<<resultFileName<<endl;
 	
 	
 	ofstream out_result;
@@ -103,20 +100,17 @@ int _tmain(int argc, char* argv[])
 
 		QueryPerformanceCounter((LARGE_INTEGER*)&start);      /*记录开始时间*/
 		dP = GetMPMF(g,s,t,maxflow,maxPmaxF,&StateMtrix);     /*运行核心算法*/
-		//cout<< dP<< endl;
+		g.max_flow = maxflow;
+		g.max_p1 = dP;
 
-		/*通过状态矩阵计算边的类别*/
-		computeEdgeClass(&StateMtrix,&key_edge_set,g,s,t);
+		/*通过状态矩阵，进行定性计算和定量计算*/
+		computeEdgeClass(&StateMtrix, &key_edge_set, g, s, t);
 		/*先计算后排序，排序在下一步做*/
-		//TODO
 
 		QueryPerformanceCounter((LARGE_INTEGER*)&counter);    /*记录结束时间*/
 		timeCost = (counter - start) / double(frequency)*1000;/*返回单位是毫秒*/
-
 		GetProcessMemoryInfo( hProcess, &pmc, sizeof(pmc));   /*获得进程使用的内存使用情况*/
 		memsize = pmc.WorkingSetSize;                         /*获得进程消耗的内存*/
-
-
 
 		/*将运行结果输出到文件*/
 		PrintFmax_Prob(out_result,s,t,maxflow,dP);            /*保存最可靠最大流分布概率到结果文件*/
@@ -134,6 +128,6 @@ int _tmain(int argc, char* argv[])
 
 	CloseHandle(hProcess);                                    /*关闭进程句柄*/
 	out_result.close();                                       /*关闭结果文件*/
-	getchar();
+	//getchar();
 	return 0;
 }

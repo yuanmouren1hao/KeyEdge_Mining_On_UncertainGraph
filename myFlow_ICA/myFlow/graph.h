@@ -41,6 +41,10 @@ public:
 	/*存储边的信息,不使用0*/
 	int AllEdge[MAX_E_NUM][5];/*1234，起点，终点，容量，有效位*/
 	double AllEdge_p[MAX_E_NUM];/**/
+
+	int max_flow;//最大流
+	double max_p1;//流分布可靠性
+	double max_p2;//网络可靠性
 };
 
 

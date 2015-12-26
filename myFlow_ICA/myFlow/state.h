@@ -33,12 +33,7 @@ typedef struct{
 
 /*通过状态矩阵计算边的类别*/
 void computeEdgeClass(Lower_subGraph *StateMtrix,KeyEdgeSet *key_edge_set,Graph& g,int source,int sink);
-/*对边进行的大分类*/
-void sortKeyEdge(Lower_subGraph *StateMtrix,KeyEdgeSet *key_edge_set);
-/*对于A类边进行排序*/
-void sortKeyEdge_A(KeyEdgeSet *key_edge_set,Graph& g,int source,int sink);
-/*对于B类边进行排序*/
-void sortKeyEdge_B(KeyEdgeSet *key_edge_set,double AllEdge_p[],Lower_subGraph *StateMtrix);
+
 /*将关键边输出*/
 void printKeyEdge(ostream &file_out,KeyEdgeSet &key_edge_set);
 /*初始化关键边集，用于循环计算*/

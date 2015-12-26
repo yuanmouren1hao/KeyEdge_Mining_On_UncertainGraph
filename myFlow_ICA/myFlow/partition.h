@@ -38,11 +38,6 @@ public:
 };                                        /*定义一个6元组用*/
 
 
-
-
-
-
-
 /*通过划分的方式得到最可靠最大流分布(rusultFd为最可靠最大流分布,返回值为其概率)*/
 double GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_subGraph * StateMtrix); 
 /*通过对可能事件模型进行划分得到最可靠最大流分布*/

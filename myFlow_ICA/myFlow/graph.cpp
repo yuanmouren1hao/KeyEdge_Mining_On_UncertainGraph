@@ -31,6 +31,20 @@ void Graph::Init()
 			matrix[u][v].iLabel = 0;
 		}
 	}
+
+	for (int jj =1; jj< MAX_E_NUM; jj++)
+	{
+		AllEdge_p[jj] = 0;
+
+		AllEdge[jj][1] = 0;
+		AllEdge[jj][2] = 0;
+		AllEdge[jj][3] = 0;
+		AllEdge[jj][4] = 0;
+	}
+
+	max_flow = 0;
+	max_p1 = 0;
+	max_p2 = 0;
 }
 
 void Init_F(Flow& f)

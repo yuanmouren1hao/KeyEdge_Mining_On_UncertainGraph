@@ -155,8 +155,10 @@ void GetNextCollection(StateSet &Cj,int *x0,Collection &nextCollection)
 /*保存当前能够取到最大流值的闭合区间中下界子图概率大者*/
 #define SAVEM(C) \
 	tmpP = CalculateP(g,(C).lower); \
-	if(tmpP > dR)  \
-	{  dR = tmpP; memcpy(lofMaxP,(C).lower,(nE+1)*sizeof(int)); } 
+	if(tmpP > dR){\
+		dR = tmpP; memcpy(lofMaxP,(C).lower,(nE+1)*sizeof(int));\
+	    for (int ii =1; ii<= g.nE; ii++){}\
+	} 
 
 
 
@@ -246,6 +248,31 @@ double  old_GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd)
 	return dR;
 }
 
+/************************************************************************/
+/* 计算子图区间概率之积*/
+/* g为不确定图，c为子图区间，i为故障的边
+/************************************************************************/
+double compute_graph(Graph &g, StateSet c)
+{
+	double p =1;
+	for (int i=1; i<= c.numE; i++)
+	{
+		if (c.lower[i]==1 && c.upper[i]==1)
+		{
+			p *= g.AllEdge_p[i];
+		}
+		else if (c.lower[i]==0 && c.upper[i]==0)
+		{
+			p *= (1-g.AllEdge_p[i]);
+		}
+		else if (c.lower[i]==0 && c.upper[i]==1)
+		{
+			p *= 1;
+		}
+	}
+	return p;
+}
+
 /*通过对可能事件模型进行划分得到最可靠最大流分布*/
 double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_subGraph * StateMtrix)
 {	
@@ -258,6 +285,9 @@ double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_s
 	GF gf;                                                                        /*剩余图*/
 	int Fmax = Dinic(g,source,sink,Fd,gf);                                        /*得到所有边都存在的最大流*/
 	assert(Fmax > 0);                                                             /*保证最大流大于0有意义*/
+
+	/*保存随机流网络可靠性，所有满足最大流的子概率之和，初始化为1*/
+	double max_p2 = 0;
 
 	/*完成一个六元组的初始化*/
 	Collection c(nE);
@@ -291,19 +321,6 @@ double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_s
 		if(tmpF >= Fmax)                                                           /*完备区间下界对应子图能够满足最大流*/
 		{
 			SAVEM(Cj);
-
-			/*尝试输出下界子图*/
-			/*
-			for (int ii=1;ii<=Cj.numE;ii++)
-			{
-				cout<<Cj.lower[ii];
-			}
-			cout<<"--Cj-->";
-			for (int ii=1;ii<=Cj.numE;ii++)
-			{
-				cout<<Cj.upper[ii];
-			}
-			cout<<endl;
 			/*保存下界子图*/
 			saveAllState(Cj,StateMtrix);
 		}  
@@ -316,8 +333,20 @@ double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_s
 			GetNextCollection(Cj,x0,next_c);
 			cStack.push(next_c); 
 			GetCurrentC0(next_c,C0);                                               /*通过划分知：C0必定能够取得最大流*/
-			SAVEM(C0);                                                             /*直接考虑C0下界子图*/
-			
+			//SAVEM(C0);                                                             /*直接考虑C0下界子图*/
+			/*以上语句代替下一段*/
+			tmpP = CalculateP(g,(C0).lower); 
+			if(tmpP > dR)
+			{
+					dR = tmpP; 
+					memcpy(lofMaxP,(C0).lower,(nE+1)*sizeof(int));
+					for (int ii =1; ii<= g.nE; ii++)
+					{
+						StateMtrix->State[0][ii] = C0.lower[ii];
+					}
+			} 
+
+
 			/*尝试输出下界子图*/
 			for (int ii=1;ii<=C0.numE;ii++)
 			{
@@ -332,6 +361,9 @@ double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_s
 			cout<<endl;
 			/*保存下界子图*/
 			saveAllState(C0,StateMtrix);
+			
+			//加上该子图区间的所有子图的概率之和
+			max_p2 += compute_graph(g, C0);
 		}
 	}
 	cout<<endl;
@@ -343,7 +375,10 @@ double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_s
 	maxflow = Dinic(cur_g,source,sink,resultFd,gf);                                /*resultFd保存最终结果*/
 
 	delete[] x0;                                                                   /*释放申请的空间*/
-	delete[] lofMaxP; 
+	delete[] lofMaxP;
+
+	/*在图数据中保存原始的网络可靠性*/
+	g.max_p2 = max_p2;
 
 	return dR;
 }
