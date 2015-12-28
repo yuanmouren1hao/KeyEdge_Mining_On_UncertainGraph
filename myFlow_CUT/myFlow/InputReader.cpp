@@ -43,7 +43,7 @@ void InputReader::ReadFirstLine()
 }
 
 
-bool InputReader::ReadGraph(Graph &g,int AllEdge[][5],double AllEdge_p[])
+bool InputReader::ReadGraph(Graph &g)
 {
 	ReadFirstLine();
 	if(gId == 0)
@@ -67,11 +67,11 @@ bool InputReader::ReadGraph(Graph &g,int AllEdge[][5],double AllEdge_p[])
 		in>>u>>v;                                             /*注意这个不能与下面的写到一起*/
 		in>>g.matrix[u][v].iC>>g.matrix[u][v].dP>>g.matrix[u][v].iLabel;
 		/*将边的信息保存在二维数组中*/
-		AllEdge[i][1]=u;
-		AllEdge[i][2]=v;
-		AllEdge[i][3]=g.matrix[u][v].iC;
-		AllEdge[i][4]=0;
-		AllEdge_p[i]=g.matrix[u][v].dP;
+		g.AllEdge[i][1]=u;
+		g.AllEdge[i][2]=v;
+		g.AllEdge[i][3]=g.matrix[u][v].iC;
+		g.AllEdge[i][4]=0;
+		g.AllEdge_p[i]=g.matrix[u][v].dP;
 	}
 
 	return true;

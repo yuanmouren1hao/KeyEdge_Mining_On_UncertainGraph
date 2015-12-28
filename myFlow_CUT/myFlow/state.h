@@ -6,6 +6,7 @@ typedef struct {
 	int State_Num;							/*下界子图的个数*/
 	int Edge_Num;							/*边的个数*/
 	int State[NUM_OF_SUB_GRAPH][MAX_E_NUM]; /*存储所有下界子图，一行表示一个子图，0不使用*/
+	int State_upper[NUM_OF_SUB_GRAPH][MAX_E_NUM];/*存储所有子图上界，一行表示一个子图，0不使用*/
 }Lower_subGraph;
 
 
@@ -13,7 +14,9 @@ typedef struct {
 typedef struct{
 	int Edge;								/*边的编号*/
 	char Edge_Class;						/*边的类别，ABC类*/
-	double ChangeAmount;					/*改变量，如果是A类边则表示流量的变化，B为可靠性的变化*/								
+	double ChangeAmount_c;					/*流量的变化量*/
+	double ChangeAmount_p1;					/*随机流网络可靠性变化量*/
+	double ChangeAmount_p2;					/*流分布可靠性变化量*/
 }KeyEdge;
 /*定义关键边集合*/
 typedef struct{
@@ -29,13 +32,8 @@ typedef struct{
 
 
 /*通过状态矩阵计算边的类别*/
-void computeEdgeClass(Lower_subGraph *StateMtrix,KeyEdgeSet *key_edge_set,Graph& g,int source,int sink,int AllEdge[][5],double AllEdge_p[]);
-/*对边进行的大分类*/
-void sortKeyEdge(Lower_subGraph *StateMtrix,KeyEdgeSet *key_edge_set);
-/*对于A类边进行排序*/
-void sortKeyEdge_A(KeyEdgeSet *key_edge_set,Graph& g,int source,int sink,int AllEdge[][5]);
-/*对于B类边进行排序*/
-void sortKeyEdge_B(KeyEdgeSet *key_edge_set,double AllEdge_p[],Lower_subGraph *StateMtrix);
+void computeEdgeClass(Lower_subGraph *StateMtrix,KeyEdgeSet *key_edge_set,Graph& g,int source,int sink);
+
 /*将关键边输出*/
 void printKeyEdge(ostream &file_out,KeyEdgeSet &key_edge_set);
 /*初始化关键边集，用于循环计算*/

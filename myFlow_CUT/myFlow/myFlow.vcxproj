@@ -14,7 +14,7 @@
     <ProjectGuid>{657C4196-ED9A-49B7-B225-67D04122C64B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>myFlow</RootNamespace>
-    <ProjectName>myFlow_cut</ProjectName>
+    <ProjectName>myFlow_CUT</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -77,6 +77,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cut.cpp" />
     <ClCompile Include="graph.cpp" />
     <ClCompile Include="InputReader.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -87,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConstDef.h" />
+    <ClInclude Include="cut.h" />
     <ClInclude Include="graph.h" />
     <ClInclude Include="InputReader.h" />
     <ClInclude Include="resultprint.h" />

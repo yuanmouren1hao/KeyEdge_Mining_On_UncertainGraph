@@ -13,7 +13,7 @@ public:
 	InputReader(const char* fileName, const char* stFileName);
 	~InputReader();
 
-	bool ReadGraph(Graph& g,int AllEdge[][5],double AllEdge_p[]);
+	bool ReadGraph(Graph& g);
 	void ReadSourceSink(int &s, int &t);
 
 private:
