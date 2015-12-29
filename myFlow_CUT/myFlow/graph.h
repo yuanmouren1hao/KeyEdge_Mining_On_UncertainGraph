@@ -3,6 +3,7 @@
 
 #include "ConstDef.h"
 #include <vector>
+#include <set>
 using namespace std;
 
 struct Edge
@@ -39,7 +40,7 @@ public:
 public:
 	AdjMatrix matrix;                        /*邻接矩阵*/
 	/*存储边的信息,不使用0*/
-	int AllEdge[MAX_E_NUM][5];/*1234，起点，终点，容量，有效位*/
+	int AllEdge[MAX_E_NUM][5];/*1234，起点，终点，容量，边的标号*/
 	double AllEdge_p[MAX_E_NUM];/**/
 
 	int max_flow;//最大流
@@ -74,6 +75,6 @@ typedef struct BFnode BFLOW;                 /*阻塞流*/
 int Dinic(Graph& g,int source,int sink,Flow& f,GF& gf);
 
 /*通过剩余图得到相应最大流的最小割*/
-void MinCut(GF& gf,int n,int source,vector<int>& S);
+void MinCut(GF& gf,int n,int source,set<int>& S);
 
 #endif

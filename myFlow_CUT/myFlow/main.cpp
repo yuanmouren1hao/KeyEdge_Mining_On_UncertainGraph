@@ -104,9 +104,10 @@ int _tmain(int argc, char* argv[])
 
 
 		/*在计算之前获取割集*/
+		set<int> MinCutEdges;
+		getMinCutEdges(g, s, t, MinCutEdges);
 
-
-		dP = GetMPMF(g,s,t,maxflow,maxPmaxF,&StateMtrix);     /*运行核心算法*/
+		dP = GetMPMF(g,s,t,maxflow,maxPmaxF,&StateMtrix, MinCutEdges);     /*运行核心算法*/
 		g.max_flow = maxflow;
 		g.max_p1 = dP;
 

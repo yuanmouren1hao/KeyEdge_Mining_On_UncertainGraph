@@ -70,7 +70,7 @@ bool InputReader::ReadGraph(Graph &g)
 		g.AllEdge[i][1]=u;
 		g.AllEdge[i][2]=v;
 		g.AllEdge[i][3]=g.matrix[u][v].iC;
-		g.AllEdge[i][4]=0;
+		g.AllEdge[i][4]=g.matrix[u][v].iLabel;
 		g.AllEdge_p[i]=g.matrix[u][v].dP;
 	}
 

@@ -6,6 +6,7 @@
 #include <memory>
 #include <stack>                                                                 /*使用栈来优化空间*/
 #include <iostream>
+#include <set>
 
 /*引入状态的头文件*/
 #include "state.h"
@@ -21,6 +22,23 @@ StateSet::~StateSet()
 }
 
 /*用于改善空间的优化结构*/
+/*构造函数初始化*/
+Collection::Collection(int num, set<int>& MinCutEdges):numE(num),I(0),j(0)
+{
+	for(int i = 0; i <= numE; i++)
+	{
+		/*如果存在某条割集中的边的话*/
+		if (MinCutEdges.count(i))
+		{
+			this->lower[i] = 1;  
+		}else{
+			this->lower[i] = 0;
+		}
+		this->upper[i] = 1;
+		/*初始情况下Ad_C集合为空(由I保证)*/
+	}
+}
+
 /*构造函数初始化*/
 Collection::Collection(int num):numE(num),I(0),j(0)
 {
@@ -272,23 +290,25 @@ double compute_graph(Graph &g, StateSet c)
 }
 
 /*通过对可能事件模型进行划分得到最可靠最大流分布*/
-double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_subGraph * StateMtrix)
+/*set<int>& MinCutEdges, 已知的确定边*/
+double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_subGraph * StateMtrix, set<int>& MinCutEdges)
 {	
 	assert((source > 0 && source <= g.nV) && (sink > 0 && sink <= g.nV));         /*保证输入合法*/
 	
 	int nE = g.nE;                                                                /*向量大小是不变的*/
 	double dR = 0.0;                                                              /*最可靠最大流分布概率*/
 
+	/*首先获取不确定图的最大流*/
 	Flow Fd;  
 	GF gf;                                                                        /*剩余图*/
 	int Fmax = Dinic(g,source,sink,Fd,gf);                                        /*得到所有边都存在的最大流*/
-	assert(Fmax > 0);                                                             /*保证最大流大于0有意义*/
+	assert(Fmax >= 0);                                                             /*保证最大流大于0有意义*/
 
-	/*保存随机流网络可靠性，所有满足最大流的子概率之和，初始化为1*/
+	/*保存随机流网络可靠性，所有满足最大流的子概率之和，初始化为0*/
 	double max_p2 = 0;
 
 	/*完成一个六元组的初始化*/
-	Collection c(nE);
+	Collection c(nE, MinCutEdges);/*通过初始化将边确认，即初始划分的区间，可放A类边和C类边*/
 	stack<Collection> cStack;                                                     /*存放需要进一步划分的子图空间*/
 	cStack.push(c);
 	
@@ -351,7 +371,7 @@ double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_s
 				cout<<C0.lower[ii];
 				
 			}
-			cout<<"--C0-->";
+			cout<<"--";
 			for (int ii=1;ii<=C0.numE;ii++)
 			{
 				cout<<C0.upper[ii];
