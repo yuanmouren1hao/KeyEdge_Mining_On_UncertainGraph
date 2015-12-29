@@ -257,7 +257,7 @@ double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_s
 	Flow Fd;  
 	GF gf;                                                                        /*剩余图*/
 	int Fmax = Dinic(g,source,sink,Fd,gf);                                        /*得到所有边都存在的最大流*/
-	assert(Fmax > 0);                                                             /*保证最大流大于0有意义*/
+	assert(Fmax >= 0);                                                             /*保证最大流大于0有意义*/
 
 	/*完成一个六元组的初始化*/
 	Collection c(nE);

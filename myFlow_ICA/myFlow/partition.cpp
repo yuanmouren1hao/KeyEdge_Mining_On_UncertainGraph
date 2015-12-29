@@ -155,10 +155,8 @@ void GetNextCollection(StateSet &Cj,int *x0,Collection &nextCollection)
 /*保存当前能够取到最大流值的闭合区间中下界子图概率大者*/
 #define SAVEM(C) \
 	tmpP = CalculateP(g,(C).lower); \
-	if(tmpP > dR){\
-		dR = tmpP; memcpy(lofMaxP,(C).lower,(nE+1)*sizeof(int));\
-	    for (int ii =1; ii<= g.nE; ii++){}\
-	} 
+	if(tmpP > dR)  \
+	{  dR = tmpP; memcpy(lofMaxP,(C).lower,(nE+1)*sizeof(int)); } 
 
 
 
@@ -284,7 +282,7 @@ double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_s
 	Flow Fd;  
 	GF gf;                                                                        /*剩余图*/
 	int Fmax = Dinic(g,source,sink,Fd,gf);                                        /*得到所有边都存在的最大流*/
-	assert(Fmax > 0);                                                             /*保证最大流大于0有意义*/
+	assert(Fmax >= 0);                                                             /*保证最大流大于0有意义*/
 
 	/*保存随机流网络可靠性，所有满足最大流的子概率之和，初始化为1*/
 	double max_p2 = 0;
