@@ -36,7 +36,7 @@ int _tmain(int argc, char* argv[])
 	char fileName[BUFFER_SIZE]       = WORK_SPACE;             /*数据存放文件*/
 	char resultFileName[BUFFER_SIZE] = WORK_SPACE;             /*实验结果存放文件*/
 
-	/*
+	
 	if (4 != argc)
 	{
 		cout<<"Command Params : "<<endl
@@ -45,20 +45,19 @@ int _tmain(int argc, char* argv[])
 			<<"\tResult File Name"<<endl;
 		return 1;
 	}
-
 	strcat_s(stFileName,argv[1]);
 	strcat_s(fileName,argv[2]);
 	strcat_s(resultFileName,argv[3]);
-	*/
-
 	
-	char argv1[BUFFER_SIZE]="data\\new_V5E6_st.txt";
-	char argv2[BUFFER_SIZE]="data\\new_V5E6.txt";
-	char argv3[BUFFER_SIZE]="data\\new_V5E6_result.txt";
+	/*
+	char argv1[BUFFER_SIZE]="data\\dayiqi_V7E11_st.txt";
+	char argv2[BUFFER_SIZE]="data\\dayiqi_V7E11.txt";
+	char argv3[BUFFER_SIZE]="data\\dayiqi_V7E11_result.txt";
 	
 	strcat_s(stFileName,argv1);
 	strcat_s(fileName,argv2);
 	strcat_s(resultFileName,argv3);
+	*/
 	cout<<stFileName<<endl<<fileName<<endl<<resultFileName<<endl;
 	
 	
@@ -122,7 +121,7 @@ int _tmain(int argc, char* argv[])
 		PrintTime(out_result,timeCost);                       /*保存运行时间到结果文件*/
 		PrintFlow(out_result,maxPmaxF,g.nV);                  /*输出最可靠的最大流分布到结果文件*/	
 		/*将关键边输出*/
-		printKeyEdge(out_result,key_edge_set);
+		printKeyEdge(out_result, key_edge_set);
 		g.Init();
 		/*初始化*/
 		init_KeyEdgeSet(key_edge_set,StateMtrix);
