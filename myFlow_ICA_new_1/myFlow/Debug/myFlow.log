@@ -1,0 +1,27 @@
+﻿生成启动时间为 2016/2/28 21:27:37。
+     1>项目“E:\myFlow_ICA_new_1\myFlow\myFlow.vcxproj”在节点 2 上(build 个目标)。
+     1>InitializeBuildStatus:
+         正在创建“Debug\myFlow_ICA_new_1.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Main.cpp
+         Main.cpp
+         Psapi.h --> Linking with Psapi.lib
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\myFlow_ICA_new_1\Debug\myFlow_ICA_new_1.exe" /INCREMENTAL /NOLOGO Psapi.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\myFlow_ICA_new_1.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"E:\myFlow_ICA_new_1\Debug\myFlow_ICA_new_1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\myFlow_ICA_new_1\Debug\myFlow_ICA_new_1.lib" /MACHINE:X86 Debug\graph.obj
+         Debug\InputReader.obj
+         Debug\Main.obj
+         Debug\resultprint.obj
+         Debug\partition.obj
+         Debug\state.obj
+         Debug\stdafx.obj
+         myFlow.vcxproj -> E:\myFlow_ICA_new_1\Debug\myFlow_ICA_new_1.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"E:\myFlow_ICA_new_1\Debug\myFlow_ICA_new_1.exe.manifest" /manifest Debug\myFlow_ICA_new_1.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         正在删除文件“Debug\myFlow_ICA_new_1.unsuccessfulbuild”。
+         正在对“Debug\myFlow_ICA_new_1.lastbuildstate”执行 Touch 任务。
+     1>已完成生成项目“E:\myFlow_ICA_new_1\myFlow\myFlow.vcxproj”(build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:01.80
