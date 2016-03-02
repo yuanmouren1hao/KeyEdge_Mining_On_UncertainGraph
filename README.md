@@ -17,6 +17,9 @@
 * ica_new算法 ，为改进之前的ica算法，
 * ica_new_1算法，B类有重合的需要处理
 * ica_new_2算法，B类边重新计算，A类边按照区间计算，结果验证为不可行
+* ica_approximation算法为ica的实验算法，用于检测优势
+
+* myFlow_caiwei 为蔡伟的最原始算法
 
 
 base_new,base_all_new算法文件夹中有算法生成的数据，可以直接使用
