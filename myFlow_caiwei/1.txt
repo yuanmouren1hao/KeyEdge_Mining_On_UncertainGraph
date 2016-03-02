@@ -1,0 +1,5 @@
+LINK : fatal error LNK1123: 转换到 COFF 期间失败: 文件无效或损坏
+
+http://www.360doc.com/content/12/1231/21/10906019_257399438.shtml
+
+http://blog.csdn.net/lee0723/article/details/8763563
