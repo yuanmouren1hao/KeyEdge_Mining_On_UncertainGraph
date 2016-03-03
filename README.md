@@ -13,11 +13,16 @@
 * GA `基于遗传算法的最可靠最大流分布的算法`
 
 * base_all_new 算法，完全的重复计算，建立精确值的标杆
+
 * base_new 算法，为的是改进了原来base算法的bug
+* base_new_test 目的是提取base_new的各种细节，验证猜想
+
 * ica_new算法 ，为改进之前的ica算法，
 * ica_new_1算法，B类有重合的需要处理
 * ica_new_2算法，B类边重新计算，A类边按照区间计算，结果验证为不可行
-* ica_approximation算法为ica的实验算法，用于检测优势
+
+
+* ica_approximation算法为近似算法
 
 * myFlow_caiwei 为蔡伟的最原始算法
 
