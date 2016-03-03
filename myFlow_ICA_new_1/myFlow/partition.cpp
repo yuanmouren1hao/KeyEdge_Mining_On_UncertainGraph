@@ -354,14 +354,14 @@ double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_s
 				}
 			} 
 			//尝试输出下界子图
-			
+			/*
 			for (int ii=1;ii<=Cj.numE;ii++) {
 				cout<<Cj.lower[ii]; }
 			cout<<"--Cj-->";
 			for (int ii=1;ii<=Cj.numE;ii++) {
 				cout<<Cj.upper[ii]; }
 			cout<<endl;
-			
+			*/
 			//保存子图区间
 			saveAllState(Cj,StateMtrix);
 			//加上该子图区间的所有子图的概率之和
@@ -390,12 +390,14 @@ double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_s
 			} 
 
 			//尝试输出下界子图
+			/*
 			for (int ii=1;ii<=C0.numE;ii++) {
 				cout<<C0.lower[ii]; }
 			cout<<"--C0-->";
 			for (int ii=1;ii<=C0.numE;ii++) {
 				cout<<C0.upper[ii]; }
 			cout<<endl; 
+			*/
 			//保存子图区间
 			saveAllState(C0,StateMtrix);
 			//加上该子图区间的所有子图的概率之和，求容量可靠性

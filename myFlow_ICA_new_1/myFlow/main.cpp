@@ -32,7 +32,7 @@ int _tmain(int argc, char* argv[])
 	char stFileName[BUFFER_SIZE]     = WORK_SPACE;             /*源点汇点*/
 	char fileName[BUFFER_SIZE]       = WORK_SPACE;             /*数据存放文件*/
 	char resultFileName[BUFFER_SIZE] = WORK_SPACE;             /*实验结果存放文件*/
-	/*
+	
 	if (4 != argc)
 	{
 		cout<<"Command Params : "<<endl
@@ -44,14 +44,14 @@ int _tmain(int argc, char* argv[])
 	strcat_s(stFileName,argv[1]);
 	strcat_s(fileName,argv[2]);
 	strcat_s(resultFileName,argv[3]);
-	*/
-	char argv1[BUFFER_SIZE]="data\\st\\V8E14s-t_4.txt";
-	char argv2[BUFFER_SIZE]="data\\graph\\V8E14_4.txt";
-	char argv3[BUFFER_SIZE]="data\\results\\V8E14_4.txt";
+	/*
+	char argv1[BUFFER_SIZE]="data\\st\\V12E22s-t_5.txt";
+	char argv2[BUFFER_SIZE]="data\\graph\\V12E22_5.txt";
+	char argv3[BUFFER_SIZE]="data\\results\\V12E22_5.txt";
 	strcat_s(stFileName,argv1);
 	strcat_s(fileName,argv2);
 	strcat_s(resultFileName,argv3);
-	
+	*/
 	cout<<stFileName<<endl<<fileName<<endl<<resultFileName<<endl;
 	
 	/*filestream to write information in the file*/

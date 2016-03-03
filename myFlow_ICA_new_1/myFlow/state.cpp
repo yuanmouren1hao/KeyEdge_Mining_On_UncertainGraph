@@ -805,79 +805,10 @@ void sortKeyEdge_B(KeyEdgeSet * key_edge_set, Graph& g, int source, int sink, Lo
 				allStateSection.insert(v);
 			}
 			/*该区间未知    需要通过  上界  下界   来判断*/
-			else if (StateMtrix->State[ii][edge_num]==1)
-			{
-				//下界
-				vector<int>TempV_low;
-				TempV_low.push_back(0);
-				//如果断掉之后 下界依然满足最大流，那么整个区间都满足
-				for (int j=1; j<=StateMtrix->Edge_Num; j++)
-				{
-					if (j==edge_num)
-					{
-						TempV_low.push_back(0);
-					}
-					else
-					{
-						//取余操作，0和2->0   1->1
-						TempV_low.push_back(StateMtrix->State[ii][j]%2);
-					}
-				}
-
-				//上界
-				vector<int>TempV_upper;
-				TempV_upper.push_back(0);
-				//如果断掉之后，区间上届不满足最大流，那么整个区间都不满足
-				for (int j=1; j<=StateMtrix->Edge_Num; j++)
-				{
-					if (j==edge_num)
-					{
-						TempV_upper.push_back(0);
-					}
-					else
-					{
-						//1和2->1   0->0
-						if (StateMtrix->State[ii][j] == 0)
-						{
-							TempV_upper.push_back(0);
-						}
-						else
-						{
-							TempV_upper.push_back(1);
-						}
-					}
-				}
-
-				//如果下界满足最大流,将该区间直接保存在allStateSection中
-				if (DinicByVertor(TempV_low,g,edge_num,source,sink) == g.max_flow)
-				{
-					vector<int> v;
-					v.push_back(0);/*为了填充第0个元素，从第一个元素开始使用*/
-					for (int j=1; j<=StateMtrix->Edge_Num; j++)
-					{
-						//如果是断掉的边的话，直接保存为0
-						if (j==edge_num)
-						{
-							v.push_back(0);
-						}else{
-							v.push_back(StateMtrix->State[ii][j]);
-						}							
-					}
-					allStateSection.insert(v);
-				}
-
-				//如果上界子图不满足最大流，那么整个区间都不满足最大流，直接舍弃即可
-				else if (DinicByVertor(TempV_upper,g,edge_num,source,sink) < g.max_flow)
-				{
-					//do nothing
-					//cout<<"can subgraph allowed."<<endl;
-				}
-				//下界不满足最大流，上界满足最大流的话，需要重新分解子图区间，但是分解的子图区间比较小而已
-				else
-				{
-					StateDivision(g,TempV_low,TempV_upper,source,sink,allStateSection);
-				}
-			}
+			//else if (StateMtrix->State[ii][edge_num]==1)
+			//{
+			//	cout<<"直接舍弃"<<endl;
+			//}
 		}
 
 		//找到所有了满足最大流区间的话，直接获取极小子图和最大流可靠性即可
@@ -1005,79 +936,10 @@ void sortKeyEdge_b(KeyEdgeSet * key_edge_set, Graph& g, int source, int sink, Lo
 				allStateSection.insert(v);
 			}
 			/*该区间未知    需要通过  上界  下界   来判断*/
-			else if (StateMtrix->State[ii][edge_num]==1)
-			{
-				//下界
-				vector<int>TempV_low;
-				TempV_low.push_back(0);
-				//如果断掉之后 下界依然满足最大流，那么整个区间都满足
-				for (int j=1; j<=StateMtrix->Edge_Num; j++)
-				{
-					if (j==edge_num)
-					{
-						TempV_low.push_back(0);
-					}
-					else
-					{
-						//取余操作，0和2->0   1->1
-						TempV_low.push_back(StateMtrix->State[ii][j]%2);
-					}
-				}
-
-				//上界
-				vector<int>TempV_upper;
-				TempV_upper.push_back(0);
-				//如果断掉之后，区间上届不满足最大流，那么整个区间都不满足
-				for (int j=1; j<=StateMtrix->Edge_Num; j++)
-				{
-					if (j==edge_num)
-					{
-						TempV_upper.push_back(0);
-					}
-					else
-					{
-						//1和2->1   0->0
-						if (StateMtrix->State[ii][j] == 0)
-						{
-							TempV_upper.push_back(0);
-						}
-						else
-						{
-							TempV_upper.push_back(1);
-						}
-					}
-				}
-
-				//如果下界满足最大流,将该区间直接保存在allStateSection中
-				if (DinicByVertor(TempV_low,g,edge_num,source,sink) == g.max_flow)
-				{
-					vector<int> v;
-					v.push_back(0);/*为了填充第0个元素，从第一个元素开始使用*/
-					for (int j=1; j<=StateMtrix->Edge_Num; j++)
-					{
-						//如果是断掉的边的话，直接保存为0
-						if (j==edge_num)
-						{
-							v.push_back(0);
-						}else{
-							v.push_back(StateMtrix->State[ii][j]);
-						}							
-					}
-					allStateSection.insert(v);
-				}
-
-				//如果上界子图不满足最大流，那么整个区间都不满足最大流，直接舍弃即可
-				else if (DinicByVertor(TempV_upper,g,edge_num,source,sink) < g.max_flow)
-				{
-					//do nothing
-					cout<<"can subgraph allowed."<<endl;
-				}
-				//下界不满足最大流，上界满足最大流的话，需要重新分解子图区间，但是分解的子图区间比较小而已
-				else
-				{
-					StateDivision(g,TempV_low,TempV_upper,source,sink,allStateSection);
-				}
-			}
+			//else if (StateMtrix->State[ii][edge_num]==1)
+			//{
+			//	cout<<"直接删除"<<endl;
+			//}
 		}
 
 		//最大流可靠性（容量可靠性）为所有满足最大流的概率之和
