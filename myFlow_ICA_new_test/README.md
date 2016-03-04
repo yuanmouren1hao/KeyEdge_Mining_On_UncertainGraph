@@ -1,1 +1,0 @@
-ica_new_test是ica_new的一个测试的程序，获取所有ica_new算法的细节
