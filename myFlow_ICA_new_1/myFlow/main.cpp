@@ -63,6 +63,16 @@ int _tmain(int argc, char* argv[])
 		exit(1);
 	}
 
+	//以下为了保存实验结果
+	ofstream out_test;
+	out_test.open("test.csv",ios::out|ios::app);         /*保存实验结果*/
+	if(!out_test.is_open())
+	{
+		printf("open test file failed...\n");
+		exit(1);
+	}
+	//out_test<<"test"<<endl;
+
 	HANDLE hProcess;                                          /*用于测进程占用的内存*/
 	PROCESS_MEMORY_COUNTERS pmc;
 	hProcess = OpenProcess(PROCESS_QUERY_INFORMATION 
@@ -115,10 +125,9 @@ int _tmain(int argc, char* argv[])
 		PrintFlow(out_result,maxPmaxF,g.nV);                  /*输出最可靠的最大流分布到结果文件*/	
 		/*将关键边输出*/
 		printKeyEdge(out_result,key_edge_set);
-		g.Init();
-		/*初始化*/
 		init_KeyEdgeSet(key_edge_set,StateMtrix);
-		
+		out_test<<"V"<<g.nV<<"E"<<g.nE<<","<<s<<","<<t<<","<<(double)memsize/MB<<","<<timeCost<<endl;
+		g.Init();/*初始化*/
 	}
 
 	CloseHandle(hProcess);                                    /*关闭进程句柄*/
