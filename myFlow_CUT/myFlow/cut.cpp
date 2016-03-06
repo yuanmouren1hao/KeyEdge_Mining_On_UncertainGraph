@@ -27,6 +27,7 @@ int getMinCutEdges(Graph& g, int source, int sink,  CertainEdge& certainEdge)
 		if (S.count(g.AllEdge[i][1]) && !S.count(g.AllEdge[i][2]))
 		{
 			certainEdge.MinCutEdges.insert(g.AllEdge[i][4]);
+			certainEdge.num_MinCutEdges++;
 		}
 	}
 
@@ -50,23 +51,27 @@ void getHangEdge(Graph& g, int source, int sink, CertainEdge& certainEdge)
 		if (g.AllEdge[i][2] == source)
 		{
 			certainEdge.HangEdges.insert(g.AllEdge[i][4]);
+			certainEdge.num_HangEdges++;
 		}
 		/*汇点流出的边是悬挂边*/
 		if (g.AllEdge[i][1] == sink)
 		{
 			certainEdge.HangEdges.insert(g.AllEdge[i][4]);
+			certainEdge.num_HangEdges++;
 		}
 
 		/*只有流入，没有流出的点*/
 		if (in_set.count(g.AllEdge[i][2])==0 && out_set.count(g.AllEdge[i][2])>0 && sink != g.AllEdge[i][2])
 		{
 			certainEdge.HangEdges.insert(g.AllEdge[i][4]);
+			certainEdge.num_HangEdges++;
 		}
 
 		/*只有流出，没有流入的点*/
 		if (in_set.count(g.AllEdge[i][1])>0 && out_set.count(g.AllEdge[i][1])==0 && source!=g.AllEdge[i][1])
 		{
 			certainEdge.HangEdges.insert(g.AllEdge[i][4]);
+			certainEdge.num_HangEdges++;
 		}
 
 	}

@@ -34,7 +34,6 @@ int _tmain(int argc, char* argv[])
 	char stFileName[BUFFER_SIZE]     = WORK_SPACE;             /*源点汇点*/
 	char fileName[BUFFER_SIZE]       = WORK_SPACE;             /*数据存放文件*/
 	char resultFileName[BUFFER_SIZE] = WORK_SPACE;             /*实验结果存放文件*/
-
 	/*
 	if (4 != argc)
 	{
@@ -44,21 +43,20 @@ int _tmain(int argc, char* argv[])
 			<<"\tResult File Name"<<endl;
 		return 1;
 	}
-
 	strcat_s(stFileName,argv[1]);
 	strcat_s(fileName,argv[2]);
 	strcat_s(resultFileName,argv[3]);
 	*/
 	
-	char argv1[BUFFER_SIZE]="data\\new_V5E6_st.txt";
-	char argv2[BUFFER_SIZE]="data\\new_V5E6.txt";
-	char argv3[BUFFER_SIZE]="data\\new_V5E6_results.txt";
-	
+	char argv1[BUFFER_SIZE]="data\\graphgen\\st\\E24D3_3.txt";
+	char argv2[BUFFER_SIZE]="data\\graphgen\\E24D3_3.txt";
+	char argv3[BUFFER_SIZE]="data\\graphgen\\result\\E24D3_3.txt";
 	strcat_s(stFileName,argv1);
 	strcat_s(fileName,argv2);
 	strcat_s(resultFileName,argv3);
-	cout<<stFileName<<endl<<fileName<<endl<<resultFileName<<endl;
 	
+	cout<<stFileName<<endl<<fileName<<endl<<resultFileName<<endl;
+	//getchar();
 	
 	ofstream out_result;
 	out_result.open(resultFileName,ios::out|ios::app);         /*保存实验结果*/
@@ -102,12 +100,14 @@ int _tmain(int argc, char* argv[])
 
 		QueryPerformanceCounter((LARGE_INTEGER*)&start);      /*记录开始时间*/
 
+		/*在计算之前获取割集和悬挂边*/
+		CertainEdge certainEdge;
+		certainEdge.num_HangEdges = 0;
+		certainEdge.num_MinCutEdges = 0;
+		getCertainEdges(g,s,t,certainEdge);
+		cout<<"确定边的个数为："<<certainEdge.num_HangEdges<<"	"<<certainEdge.num_MinCutEdges<<endl;
 
-		/*在计算之前获取割集*/
-		set<int> MinCutEdges;
-		getMinCutEdges(g, s, t, MinCutEdges);
-
-		dP = GetMPMF(g,s,t,maxflow,maxPmaxF,&StateMtrix, MinCutEdges);     /*运行核心算法*/
+		dP = GetMPMF(g,s,t,maxflow,maxPmaxF,&StateMtrix, certainEdge);     /*运行核心算法*/
 		g.max_flow = maxflow;
 		g.max_p1 = dP;
 

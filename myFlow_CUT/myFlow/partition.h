@@ -8,6 +8,7 @@
 
 /*引入状态的头文件*/
 #include "state.h"
+#include "cut.h"
 
 using namespace std;
 
@@ -26,8 +27,9 @@ public:
 class Collection
 {
 public:
-	Collection(int num, set<int>& MinCutEdges);
+	Collection(int num, CertainEdge& certainEdge);
 	Collection(int num);
+	Collection(vector<int> down_, vector<int> top_, int num);
 	~Collection();
 
 public:
@@ -41,7 +43,7 @@ public:
 
 
 /*通过划分的方式得到最可靠最大流分布(rusultFd为最可靠最大流分布,返回值为其概率)*/
-double GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_subGraph * StateMtrix, set<int>& MinCutEdges); 
+double GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_subGraph * StateMtrix, CertainEdge& certainEdge); 
 /*通过对可能事件模型进行划分得到最可靠最大流分布*/
 double old_GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd);
 

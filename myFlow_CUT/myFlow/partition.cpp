@@ -10,6 +10,7 @@
 
 /*引入状态的头文件*/
 #include "state.h"
+#include "cut.h"
 
 using namespace std;
 
@@ -23,18 +24,30 @@ StateSet::~StateSet()
 
 /*用于改善空间的优化结构*/
 /*构造函数初始化*/
-Collection::Collection(int num, set<int>& MinCutEdges):numE(num),I(0),j(0)
+Collection::Collection(int num, CertainEdge& certainEdge):numE(num),I(0),j(0)
 {
+	this->I = 0;
+	this->j = 0;
+	this->numE = num;
 	for(int i = 0; i <= numE; i++)
 	{
-		/*如果存在某条割集中的边的话*/
-		if (MinCutEdges.count(i))
+		/*如果已知某条割集中的边*/
+		if (certainEdge.MinCutEdges.count(i))
 		{
 			this->lower[i] = 1;  
 		}else{
 			this->lower[i] = 0;
 		}
-		this->upper[i] = 1;
+
+		/*如果已知某条悬挂边*/
+		if (certainEdge.HangEdges.count(i))
+		{
+			this->upper[i] = 0;
+		}
+		else{
+			this->upper[i] = 1;
+		}
+		
 		/*初始情况下Ad_C集合为空(由I保证)*/
 	}
 }
@@ -47,6 +60,20 @@ Collection::Collection(int num):numE(num),I(0),j(0)
 		this->lower[i] = 0;  
 		this->upper[i] = 1;
 		/*初始情况下Ad_C集合为空(由I保证)*/
+	}
+}
+
+
+/*构造函数初始化，有上界和下界的构造函数*/
+Collection::Collection(vector<int> down_, vector<int>top_, int num)
+{
+	this->numE = num;
+	this->I = 0;
+	this->j = 0;
+	for(int i = 0; i <= num; i++)
+	{
+		this->lower[i] = down_[i];  
+		this->upper[i] = top_[i];
 	}
 }
 
@@ -291,7 +318,7 @@ double compute_graph(Graph &g, StateSet c)
 
 /*通过对可能事件模型进行划分得到最可靠最大流分布*/
 /*set<int>& MinCutEdges, 已知的确定边*/
-double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_subGraph * StateMtrix, set<int>& MinCutEdges)
+double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_subGraph * StateMtrix, CertainEdge& certainEdge)
 {	
 	assert((source > 0 && source <= g.nV) && (sink > 0 && sink <= g.nV));         /*保证输入合法*/
 	
@@ -308,7 +335,7 @@ double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_s
 	double max_p2 = 0;
 
 	/*完成一个六元组的初始化*/
-	Collection c(nE, MinCutEdges);/*通过初始化将边确认，即初始划分的区间，可放A类边和C类边*/
+	Collection c(nE, certainEdge);/*通过初始化将边确认，即初始划分的区间，可放A类边和C类边*/
 	stack<Collection> cStack;                                                     /*存放需要进一步划分的子图空间*/
 	cStack.push(c);
 	
@@ -366,6 +393,7 @@ double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_s
 
 
 			/*尝试输出下界子图*/
+			/*
 			for (int ii=1;ii<=C0.numE;ii++)
 			{
 				cout<<C0.lower[ii];
@@ -377,6 +405,7 @@ double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_s
 				cout<<C0.upper[ii];
 			}
 			cout<<endl;
+			*/
 			/*保存下界子图*/
 			saveAllState(C0,StateMtrix);
 			

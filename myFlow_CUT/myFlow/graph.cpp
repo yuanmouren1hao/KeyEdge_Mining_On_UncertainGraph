@@ -2,7 +2,6 @@
 
 #include "graph.h"
 #include <queue>
-#include <vector>
 #include <set>
 
 using namespace std;
@@ -267,7 +266,6 @@ int Dinic(Graph& g,int source,int sink,Flow& f,GF& gf)
 }
 
 /*通过剩余图求解当前最大流对应的最小割(层次遍历)*/
-/*gf：剩余图，n：图顶点个数，source：源点，S：源割测*/
 void MinCut(GF& gf,int n,int source,set<int>& S)  
 {
 	bool isVisited[MAX];
