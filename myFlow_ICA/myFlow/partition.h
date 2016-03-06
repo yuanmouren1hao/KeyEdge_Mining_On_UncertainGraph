@@ -26,6 +26,7 @@ class Collection
 {
 public:
 	Collection(int num);
+	Collection(vector<int> down_, vector<int>top_, int num);
 	~Collection();
 
 public:

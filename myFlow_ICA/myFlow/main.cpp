@@ -32,7 +32,6 @@ int _tmain(int argc, char* argv[])
 	char stFileName[BUFFER_SIZE]     = WORK_SPACE;             /*源点汇点*/
 	char fileName[BUFFER_SIZE]       = WORK_SPACE;             /*数据存放文件*/
 	char resultFileName[BUFFER_SIZE] = WORK_SPACE;             /*实验结果存放文件*/
-
 	/*
 	if (4 != argc)
 	{
@@ -42,22 +41,21 @@ int _tmain(int argc, char* argv[])
 			<<"\tResult File Name"<<endl;
 		return 1;
 	}
-
 	strcat_s(stFileName,argv[1]);
 	strcat_s(fileName,argv[2]);
 	strcat_s(resultFileName,argv[3]);
 	*/
-	
-	char argv1[BUFFER_SIZE]="data\\new_V5E6_st.txt";
-	char argv2[BUFFER_SIZE]="data\\new_V5E6.txt";
-	char argv3[BUFFER_SIZE]="data\\new_V5E6_results.txt";
-	
+	char argv1[BUFFER_SIZE]="data\\st\\V6E10s-t_2.txt";
+	char argv2[BUFFER_SIZE]="data\\graph\\V6E10_2.txt";
+	char argv3[BUFFER_SIZE]="data\\results\\V6E10_2_results.txt";
 	strcat_s(stFileName,argv1);
 	strcat_s(fileName,argv2);
 	strcat_s(resultFileName,argv3);
+	
+	
 	cout<<stFileName<<endl<<fileName<<endl<<resultFileName<<endl;
 	
-	
+	/*filestream to write information in the file*/
 	ofstream out_result;
 	out_result.open(resultFileName,ios::out|ios::app);         /*保存实验结果*/
 	if(!out_result.is_open())
@@ -128,6 +126,6 @@ int _tmain(int argc, char* argv[])
 
 	CloseHandle(hProcess);                                    /*关闭进程句柄*/
 	out_result.close();                                       /*关闭结果文件*/
-	//getchar();
+	getchar();
 	return 0;
 }

@@ -32,6 +32,19 @@ Collection::Collection(int num):numE(num),I(0),j(0)
 	}
 }
 
+/*构造函数初始化，有上界和下界的构造函数*/
+Collection::Collection(vector<int> down_, vector<int>top_, int num)
+{
+	this->numE = num;
+	this->I = 0;
+	this->j = 0;
+	for(int i = 0; i <= num; i++)
+	{
+		this->lower[i] = down_[i];  
+		this->upper[i] = top_[i];
+	}
+}
+
 Collection::~Collection()
 {
 }
@@ -271,6 +284,8 @@ double compute_graph(Graph &g, StateSet c)
 	return p;
 }
 
+
+
 /*通过对可能事件模型进行划分得到最可靠最大流分布*/
 double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_subGraph * StateMtrix)
 {	
@@ -319,6 +334,20 @@ double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_s
 		if(tmpF >= Fmax)                                                           /*完备区间下界对应子图能够满足最大流*/
 		{
 			SAVEM(Cj);
+			/*尝试输出下界子图*/
+			
+			for (int ii=1;ii<=Cj.numE;ii++)
+			{
+				cout<<Cj.lower[ii];
+
+			}
+			cout<<"--Cj-->";
+			for (int ii=1;ii<=Cj.numE;ii++)
+			{
+				cout<<Cj.upper[ii];
+			}
+			cout<<endl;
+			
 			/*保存下界子图*/
 			saveAllState(Cj,StateMtrix);
 		}  
@@ -346,6 +375,7 @@ double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_s
 
 
 			/*尝试输出下界子图*/
+			
 			for (int ii=1;ii<=C0.numE;ii++)
 			{
 				cout<<C0.lower[ii];
@@ -357,6 +387,7 @@ double  GetMPMF(Graph& g,int source,int sink,int &maxflow,Flow& resultFd,Lower_s
 				cout<<C0.upper[ii];
 			}
 			cout<<endl;
+			
 			/*保存下界子图*/
 			saveAllState(C0,StateMtrix);
 			
