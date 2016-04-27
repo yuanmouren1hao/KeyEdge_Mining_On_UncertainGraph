@@ -27,6 +27,11 @@
 * myFlow_caiwei 为蔡伟的最原始算法
 
 
+
+* BASE_FDP      为大论文的BASE_FDP算法
+* ICA_FDP       为大论文的ICA_FDP算法
+
+
 base_new,base_all_new算法文件夹中有算法生成的数据，可以直接使用
 
 
