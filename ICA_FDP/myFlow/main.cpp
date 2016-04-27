@@ -58,7 +58,6 @@ int _tmain(int argc, char* argv[])
 		printf("open result file failed...\n");
 		exit(1);
 	}
-
 	//以下为了保存实验结果
 	ofstream out_test;
 	out_test.open("test.csv",ios::out|ios::app);         /*保存实验结果*/
@@ -101,17 +100,17 @@ int _tmain(int argc, char* argv[])
 		inReader.ReadSourceSink(s,t);
 		/*读一个图数据处理一个图*/
 
+
+		dP = GetMPMF(g,s,t,maxflow,maxPmaxF,&StateMtrix);//前期计算
+		//cout<< dP<< endl;
 		QueryPerformanceCounter((LARGE_INTEGER*)&start);      /*记录开始时间*/
-		dP = GetMPMF(g,s,t,maxflow,maxPmaxF,&StateMtrix);     /*运行核心算法*/
-		 
 		//核心算法
 		computeICA(&StateMtrix, &key_edge_set, g, s, t);
-
-
 		QueryPerformanceCounter((LARGE_INTEGER*)&counter);    /*记录结束时间*/
 		timeCost = (counter - start) / double(frequency)*1000;/*返回单位是毫秒*/
 		GetProcessMemoryInfo( hProcess, &pmc, sizeof(pmc));   /*获得进程使用的内存使用情况*/
 		memsize = pmc.WorkingSetSize;                         /*获得进程消耗的内存*/
+
 
 		/*将运行结果输出到文件*/
 		PrintFmax_Prob(out_result,s,t,maxflow,dP);            /*保存最可靠最大流分布概率到结果文件*/
@@ -122,7 +121,7 @@ int _tmain(int argc, char* argv[])
 		/*将关键边输出*/
 		printKeyEdge(out_result,key_edge_set);
 		init_KeyEdgeSet(key_edge_set,StateMtrix);
-		out_test<<"V"<<g.nV<<"E"<<g.nE<<","<<s<<","<<t<<","<<(double)memsize/MB<<","<<timeCost<<endl;
+		out_test<<"V"<<g.nV<<"E"<<g.nE<<","<<s<<","<<t<<","<<timeCost<<","<<(double)memsize/MB<<endl;
 		g.Init();/*初始化*/
 	}
 
